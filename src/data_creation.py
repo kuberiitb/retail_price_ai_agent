@@ -5,6 +5,7 @@ import io
 import pandas as pd
 import numpy as np
 import random
+from langchain_community.utilities import SQLDatabase
 
 # Dataset Creation
 # Keep only two product for now.
