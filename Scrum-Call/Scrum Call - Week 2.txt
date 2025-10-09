@@ -1,0 +1,11 @@
+Categorize the questions as simple, medium, complex
+Put it in ChatGPT to understand how it needs to be calculated
+Put these questions in ChatGPT and ask it to create a master prompt
+Prompt can contain join related queries
+DSPy to control the output
+Improve tool to have optimization layer
+Do the evals - Thumbs up and down
+Generate user feedback
+Identify the failure modes
+Add episodic memory - Each task has multiple steps - get the winner task from the memory. The traces of the task should be stored inside another table with success or failure
+Build UI
