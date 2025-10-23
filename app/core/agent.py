@@ -3,6 +3,9 @@ from langchain_openai import ChatOpenAI
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.utilities import SQLDatabase
 from langgraph.prebuilt import create_react_agent
+from langgraph.checkpoint.memory import MemorySaver
+from langfuse.langchain import CallbackHandler
+from langfuse import get_client
 
 class RetailAgent:
     """A class to handle retail database interactions using a language model."""
@@ -145,13 +148,17 @@ COLUMN: discount_pct - Discount percentage applied by the competitor, if availab
         llm = ChatOpenAI(model=self.model_name)
         toolkit = SQLDatabaseToolkit(db=self.db, llm=llm)
         tools = toolkit.get_tools()
-        
-        return create_react_agent(
+        memory = MemorySaver()
+        langfuse_handler = CallbackHandler()
+        data_agent = create_react_agent(
             name="Retail_Data_Agent",
             model=llm,
             tools=tools,
             prompt=self._create_system_message(),
+            checkpointer = memory
         )
+        data_agent = data_agent.with_config({"callbacks": [langfuse_handler]})
+        return data_agent
 
     def get_response(self, question: str) -> str:
         """
